@@ -4,6 +4,7 @@ import {Card, Icon, Form, Input, Select, Button} from 'antd';
 import LinkButton from "../../components/link-button";
 import {reqCategory} from "../../api";
 import memoryUtils from '../../utils/memoryUtils';
+import UpdatePicture from'./update-picture'
 
 const Item = Form.Item;
 
@@ -137,7 +138,7 @@ class ProductAddUpdate extends Component {
               </Select>)}
           </Item>
           <Item label="Product Picture">
-            <div>picture</div>
+            <UpdatePicture/>
           </Item>
           <Item label="Product Detail">
             <div>detail</div>
