@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Card, Icon, Form, Input, Select, Button} from 'antd';
+import {Card, Icon, Form, Input, Select, Button, message} from 'antd';
 
 import LinkButton from "../../components/link-button";
-import {reqCategory} from "../../api";
+import {reqCategory, reqAddUpdateProduct} from "../../api";
 import memoryUtils from '../../utils/memoryUtils';
 import UpdatePicture from'./update-picture'
+import UpdateDraftEditor from "./update-draft-editor";
 
 const Item = Form.Item;
 
@@ -13,6 +14,15 @@ class ProductAddUpdate extends Component {
   state = {
     categories: [],
   };
+
+  constructor(props) {
+    super(props);
+    //reference update-pictures component
+    this.picturesRef = React.createRef();
+    //reference update-draft-editor component
+    this.editorRef = React.createRef()
+  }
+
 
   //get all categories
   getCategory = async () => {
@@ -35,13 +45,31 @@ class ProductAddUpdate extends Component {
     }
   }
 
+  //submit
   handleSubmit = (event) => {
-
     event.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
         const {name, desc, price, categoryId} = values;
         console.log('send request', name, desc, price, categoryId);
+        const imgs = this.picturesRef.current.getImgs();
+        console.log(imgs);
+        const detail = this.editorRef.current.getDetail();
+        console.log(detail);
+        const product = {name,desc,price,categoryId,imgs,detail}
+        //add or update
+        /*怎么知道添加或修改,根据id
+         */
+        if(this.isUpdate){product._id=this.product._id}
+        //send request
+        const result = await reqAddUpdateProduct(product);
+        if (result.status===0) {
+          message.success(`${this.isUpdate ? 'update' : 'add'} product successfully`);
+          this.props.history.replace('/product');
+        } else {
+          message.error(result.msg);
+        }
+
       }
     });
 
@@ -138,10 +166,10 @@ class ProductAddUpdate extends Component {
               </Select>)}
           </Item>
           <Item label="Product Picture">
-            <UpdatePicture/>
+            <UpdatePicture ref={this.picturesRef} imgs={product.imgs}/>
           </Item>
-          <Item label="Product Detail">
-            <div>detail</div>
+          <Item label="Product Detail" wrapperCol={{span:20}}>
+            <UpdateDraftEditor ref={this.editorRef} detail={product.detail} />
           </Item>
           <Item>
             <Button type="primary" htmlType="submit">submit</Button>

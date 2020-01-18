@@ -60,3 +60,12 @@ export const reqUpdateProductStatus = (productId, status) => ajax.post(BASE + '/
   productId,
   status
 });
+
+//delete img
+export const reqDeleteImg = (name) => ajax.post(BASE + '/manage/img/delete', {name});
+
+//add or update product
+export const reqAddUpdateProduct = (product) => ajax.post(
+  BASE + '/manage/product/' + (product._id ? 'update' : 'add'),
+  product
+);

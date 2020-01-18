@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Card, Select, Input, Button, Icon, Table, message, Divider} from 'antd';
+import throttle from 'lodash.throttle';
 
 import LinkButton from "../../components/link-button";
 import {reqProduct, reqSearchProducts, reqUpdateProductStatus} from "../../api";
@@ -89,7 +90,7 @@ class ProductHome extends Component {
     this.pageNum = pageNum; //store current page number
     const {searchName, searchType} = this.state;
     let result;
-    if (!searchName) {
+    if (!this.isSearch) { //search product or display all products
       result = await reqProduct(pageNum, PAGE_SIZE)
     } else {
       result = await reqSearchProducts({pageNum, pageSize: PAGE_SIZE, searchName, searchType})
