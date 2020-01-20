@@ -1,3 +1,17 @@
+/*
+1.新建一个component,复制antd的模板
+2.父组件里引入<PicturesWall/>
+3.
+
+ */
+
+
+
+
+
+
+
+
 import React, {Component} from 'react';
 import {Upload, Icon, Modal, message} from 'antd';
 import reqDeleteImg from 'api';

@@ -16,6 +16,25 @@ function getBase64(file) {
 
 export default class UpdatePicture extends Component {
 
+  //get imgs from parent component
+  static propTypes = {
+    imgs: PropTypes.array
+  };
+
+  state = {
+    previewVisible: false,
+    previewImage: '',
+    fileList: [
+      // {
+      //   uid: '-1', //unique identifier, negative is recommend, to prevent
+      //   name: 'image.png', //file name
+      //   status: 'done', //options：uploading, done, error, removed
+      //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      // }
+    ],
+  };
+
+
   componentWillMount() {
     // get imgs from parent component
     const imgs = this.props.imgs;
@@ -31,23 +50,6 @@ export default class UpdatePicture extends Component {
       this.setState({fileList})
     }
   }
-
-  state = {
-    previewVisible: false,
-    previewImage: '',
-    fileList: [
-      // {
-      //   uid: '-1', //unique identifier, negative is recommend, to prevent
-      //   name: 'image.png', //file name
-      //   status: 'done', //options：uploading, done, error, removed
-      //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      // }
-    ],
-  };
-
-  static propTypes = {
-    imgs: PropTypes.array
-  };
 
   //get the names array of images(api), pass it to parent comment
   getImgs = () => this.state.fileList.map(file => file.name);
@@ -86,9 +88,9 @@ export default class UpdatePicture extends Component {
       } else {
         message.error('delete image failed')
       }
-      //update fileList
-      this.setState({fileList})
     }
+    //update fileList
+    this.setState({fileList})
   };
 
 

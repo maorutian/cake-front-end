@@ -6,6 +6,7 @@ import {reqCategory, reqAddUpdateProduct} from "../../api";
 import memoryUtils from '../../utils/memoryUtils';
 import UpdatePicture from'./update-picture'
 import UpdateDraftEditor from "./update-draft-editor";
+import PicturesWall from './p';
 
 const Item = Form.Item;
 
